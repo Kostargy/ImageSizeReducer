@@ -7,22 +7,31 @@ def main():
 
         parser = argparse.ArgumentParser(description='Description of your program')
         parser.add_argument('-p','--path', help='Image Directory', required=True)
-        parser.add_argument('-s','--size', help='Maximum image size in bytes',type=int,choices=range(0,15000000), required=True)
+        parser.add_argument('-s','--size', help='Maximum image size in bytes',type=check_int, required=True)
         args = parser.parse_args()
 
         walk_dir = args.path
         global limit
         limit = args.size
-        ##print(walk_dir, type(limit))
+
         ## Directory iteration
         for root, subdirs, files in os.walk(walk_dir):
             for someImage in files:
+
                 filename , ext = os.path.splitext(someImage)
                 p = os.path.abspath(os.path.join(root,someImage))
-                print("path: ",p)
+
                 if ext == ( ".jpg" or ".png"):
                     image=Image.open(p)
                     to_python(image,p,filename)
+
+
+def check_int(value):
+    ivalue=int(value)
+    if ivalue < 0 or ivalue > 200000000:# 200MB
+            raise argparse.ArgumentTypeError("Invalid image size: %s Bytes" % value)
+
+    return ivalue
 
 
 def to_python(image,path,filename):
