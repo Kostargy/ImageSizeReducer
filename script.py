@@ -12,6 +12,8 @@ def main():
 
         walk_dir = args.path
         global limit
+        global progress_i
+        progress_i=1
         limit = args.size
 
         ## Directory iteration
@@ -24,6 +26,21 @@ def main():
                 if ext == ( ".jpg" or ".png"):
                     image=Image.open(p)
                     to_python(image,p,filename)
+                    progress_i = progress_bar(progress_i)
+
+def progress_bar(progress_i):
+    if progress_i==1:
+        sys.stdout.write("\r.")
+        sys.stdout.flush()
+    elif progress_i==2:
+        sys.stdout.write("\r..")
+        sys.stdout.flush()
+    elif progress_i==3:
+        sys.stdout.write("\r...")
+        sys.stdout.flush()
+        progress_i=0
+    progress_i +=1
+    return progress_i
 
 
 def check_int(value):
