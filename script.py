@@ -25,7 +25,7 @@ def main():
 
                 if ext == ( ".jpg" or ".png"):
                     image=Image.open(p)
-                    to_python(image,p,filename)
+                    resize(image,p,filename)
                     progress_i = progress_bar(progress_i)
 
 def progress_bar(progress_i):
@@ -51,7 +51,7 @@ def check_int(value):
     return ivalue
 
 
-def to_python(image,path,filename):
+def resize(image,path,filename):
         ##limit = 500000
         img = Image.open(path)
         width, height = img.size
